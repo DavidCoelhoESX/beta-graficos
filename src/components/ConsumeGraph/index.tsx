@@ -15,6 +15,10 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { getDesaturatedColor } from "../../utils/desaturateColors";
+import {
+  getMonthAbbreviations,
+  getMonthFirstLetter,
+} from "../../utils/getMonths";
 
 ChartJS.register(
   CategoryScale,
@@ -28,6 +32,7 @@ ChartJS.register(
 
 export const ConsumeGraph = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hover, setHover] = useState(false);
   const [tooltipData, setTooltipData] = useState<{
     x: number;
     y: number;
@@ -38,7 +43,7 @@ export const ConsumeGraph = () => {
   const barraB = [8, 15, 25, 30, 18, 15, 10, 27, 35, 19, 13, 12];
 
   const data: ChartData<"bar" | "line", number[], string> = {
-    labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    labels: !hover ? getMonthFirstLetter() : getMonthAbbreviations(),
     datasets: [
       {
         type: "bar" as const,
@@ -122,10 +127,10 @@ export const ConsumeGraph = () => {
       y: {
         beginAtZero: true,
         grid: {
-          display: false,
+          display: hover,
         },
         ticks: {
-          display: false,
+          display: hover,
         },
         border: {
           display: false,
@@ -137,7 +142,11 @@ export const ConsumeGraph = () => {
   return (
     <div
       style={{ width: "600px", height: "300px", position: "relative" }}
-      onMouseLeave={() => setHoveredIndex(null)}
+      onMouseLeave={() => {
+        setHoveredIndex(null);
+        setHover(false);
+      }}
+      onMouseEnter={() => setHover(true)}
     >
       <Chart type="bar" data={data} options={options} />
       {tooltipData.visible && (

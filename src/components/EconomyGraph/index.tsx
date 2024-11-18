@@ -14,6 +14,7 @@ import { useRef, useState } from "react";
 import { Chart } from "react-chartjs-2";
 import { getDesaturatedColor } from "../../utils/desaturateColors";
 import { CustomTooltip } from "../ConsumeGraph/Tooltip";
+import { getMonthAbbreviations } from "../../utils/getMonths";
 
 ChartJS.register(
   CategoryScale,
@@ -38,7 +39,7 @@ export const EconomyGraph = () => {
   const barraB = [10, 20, 30, 40, 15, 10, 20, 30, 40, 15, 10, 20];
 
   const data: ChartData<"bar" | "line", number[], string> = {
-    labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    labels: getMonthAbbreviations(),
     datasets: [
       {
         type: "line" as const,

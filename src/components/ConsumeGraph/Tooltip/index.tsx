@@ -1,4 +1,4 @@
-import { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { CSSProperties, HTMLAttributes } from "react";
 
 interface CustomTooltipProps extends HTMLAttributes<HTMLDivElement> {
   visible: boolean;
@@ -46,7 +46,7 @@ export const CustomTooltip = ({
             marginBottom: "5px",
           }} // Melhorando espaçamento entre itens
         >
-          <span>{data.label}</span>
+          <span style={{ color: "red" }}>{data.label}</span>
           <span style={{ fontWeight: "bold" }}>{data.value} MWh</span>
         </div>
       ))}
